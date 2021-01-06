@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Mikkel Jeppesens ramblings</title>
+    <link>https://blog.mikkel.cc/posts/</link>
+    <description>Recent content in Posts on Mikkel Jeppesens ramblings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Jan 2021 19:45:46 +0100</lastBuildDate><atom:link href="https://blog.mikkel.cc/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homeassistant PC Power Control</title>
+      <link>https://blog.mikkel.cc/posts/homeassistant_pc_power/</link>
+      <pubDate>Wed, 06 Jan 2021 19:45:46 +0100</pubDate>
+      
+      <guid>https://blog.mikkel.cc/posts/homeassistant_pc_power/</guid>
+      <description>This is what I created this blog for. I still have to write the actual post but for now I need to get the site working</description>
+    </item>
+    
+  </channel>
+</rss>
