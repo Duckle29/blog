@@ -151,7 +151,7 @@ Get-NetFirewallRule -Name *ssh*
 <span style="color:#75715e"># If the firewall does not exist, create one</span>
 New-NetFirewallRule -Name sshd -DisplayName <span style="color:#e6db74">&#39;OpenSSH Server (sshd)&#39;</span> -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
 </code></pre></div><p>It&rsquo;s almost identical to the linked post, but installs the server instead of the client. I&rsquo;ll also
-link to [the great microsoft documentation](<a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">the microsoft documenation</a>) that the other blog links to.</p>
+link to <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">the great microsoft documentation</a> that the other blog links to.</p>
 <h2 id="creating-a-local-user">Creating a local user</h2>
 <p>Next I&rsquo;d recommend creating a dedicated homeassistant user on the PC, as I don&rsquo;t think it&rsquo;d be a
 great idea to give your homeassistant instance unlimited access to your main account. Again the commands
