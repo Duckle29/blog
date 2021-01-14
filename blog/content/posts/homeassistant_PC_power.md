@@ -113,7 +113,7 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 ```
 
 It's almost identical to the linked post, but installs the server instead of the client. I'll also
-link to [the great microsoft documentation]([the microsoft documenation](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)) that the other blog links to.
+link to [the great microsoft documentation](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse) that the other blog links to.
 
 ## Creating a local user
 Next I'd recommend creating a dedicated homeassistant user on the PC, as I don't think it'd be a 
