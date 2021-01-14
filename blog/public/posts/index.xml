@@ -6,14 +6,15 @@
     <description>Recent content in Posts on Mikkel Jeppesens ramblings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 06 Jan 2021 19:45:46 +0100</lastBuildDate><atom:link href="https://blog.mikkel.cc/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Jan 2021 02:22:45 +0100</lastBuildDate><atom:link href="https://blog.mikkel.cc/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Homeassistant PC Power Control</title>
       <link>https://blog.mikkel.cc/posts/homeassistant_pc_power/</link>
-      <pubDate>Wed, 06 Jan 2021 19:45:46 +0100</pubDate>
+      <pubDate>Thu, 14 Jan 2021 02:22:45 +0100</pubDate>
       
       <guid>https://blog.mikkel.cc/posts/homeassistant_pc_power/</guid>
-      <description>This is what I created this blog for. I still have to write the actual post but for now I need to get the site working</description>
+      <description>Windows 10 homeassistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post hower solves issues I ran into following other posts.
+I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up home assistant, the logical aproach was to integrate it into there. I already had my computer set up for Wake on LAN support, and used a separate app for this, but this will only allow you to turn on your PC, which is only half of the task, however it was also by far the easiest, so lets start with thats</description>
     </item>
     
   </channel>
