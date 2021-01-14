@@ -14,7 +14,7 @@
       
       <guid>https://blog.mikkel.cc/posts/homeassistant_pc_power/</guid>
       <description>Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
-I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up home assistant, the logical approach was to integrate it into there. I already had my computer set up for Wake on LAN support, and used a separate app for this, but this will only allow you to turn on your PC, which is only half of the task, however it was also by far the easiest, so lets start with that&amp;rsquo;s</description>
+ After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&amp;rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows.</description>
     </item>
     
   </channel>

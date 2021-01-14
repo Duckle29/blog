@@ -9,6 +9,8 @@ draft: false
 inspired by [this](https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/) blog post
 however solves issues I ran into following other posts.*
 
+> After posting this blog post, I was made aware of a tool called [IOT Link](https://gitlab.com/iotlink/iotlink/-/wikis/home) which seems to be a neat alternative. I'd recommend looking at / trying this before bothering with the annoyance that is ssh on windows. Thanks to Luma on the homeassistant discord! :)
+
 I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up
 home assistant, the logical approach was to integrate it into there. I already had my computer 
 set up for Wake on LAN support, and used a separate app for this, but this will only allow you to 

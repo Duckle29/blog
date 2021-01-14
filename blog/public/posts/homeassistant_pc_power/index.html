@@ -27,11 +27,11 @@ if (!doNotTrack) {
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Home Assistant PC Power Control"/>
 <meta name="twitter:description" content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
-I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up home assistant, the logical approach was to integrate it into there. I already had my computer set up for Wake on LAN support, and used a separate app for this, but this will only allow you to turn on your PC, which is only half of the task, however it was also by far the easiest, so lets start with that&rsquo;s"/>
+ After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows."/>
 
     <meta property="og:title" content="Home Assistant PC Power Control" />
 <meta property="og:description" content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
-I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up home assistant, the logical approach was to integrate it into there. I already had my computer set up for Wake on LAN support, and used a separate app for this, but this will only allow you to turn on your PC, which is only half of the task, however it was also by far the easiest, so lets start with that&rsquo;s" />
+ After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.mikkel.cc/posts/homeassistant_pc_power/" />
 <meta property="article:published_time" content="2021-01-14T02:22:45+01:00" />
@@ -88,6 +88,9 @@ I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having re
 <p><em>First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly
 inspired by <a href="https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/">this</a> blog post
 however solves issues I ran into following other posts.</em></p>
+<blockquote>
+<p>After posting this blog post, I was made aware of a tool called <a href="https://gitlab.com/iotlink/iotlink/-/wikis/home">IOT Link</a> which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows. Thanks to Luma on the homeassistant discord! :)</p>
+</blockquote>
 <p>I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up
 home assistant, the logical approach was to integrate it into there. I already had my computer
 set up for Wake on LAN support, and used a separate app for this, but this will only allow you to
