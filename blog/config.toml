@@ -20,7 +20,7 @@ paginate = 5
     B.Sc. in EE, working on a M.Sc. in Ai and computer vision. 
     Having fun with IoT and keyboards in my spare time.
     """
-    avatar = "avatar.jpg"
+    avatar = "avatar180x180.png"
     menu_item_separator = " - "
     
     [[params.social]]
