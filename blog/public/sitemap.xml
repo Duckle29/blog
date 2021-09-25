@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://blog.mikkel.cc/posts/homeassistant_pc_power/</loc>
     <lastmod>2021-01-14T02:22:45+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.mikkel.cc/</loc>
     <lastmod>2021-01-14T02:22:45+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.mikkel.cc/posts/</loc>
     <lastmod>2021-01-14T02:22:45+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.mikkel.cc/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.mikkel.cc/tags/</loc>
   </url>
-  
 </urlset>
