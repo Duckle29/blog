@@ -18,7 +18,7 @@ paginate = 5
 [params]
     author = "Mikkel Jeppesen"
     description = """
-    B.Sc. in EE, working on a M.Sc. in Ai and computer vision. 
+    B.Sc. in EE, M.Sc. in Ai and computer vision. 
     Having fun with IoT and keyboards in my spare time.
     """
     avatar = "avatar180x180.png"
