@@ -1,204 +1,161 @@
 <!doctype html>
 <html lang="en-us">
+  <head>
+    <title>Home Assistant PC Power Control // Mikkel Jeppesens ramblings</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.88.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Mikkel Jeppesen" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://blog.mikkel.cc/css/main.min.68e582a4d4ed824d6b7e3b5b37cae47eb3779bd631046379d0e68b38230cc3e2.css" />
 
-<head>
-  <title>Home Assistant PC Power Control // Mikkel Jeppesens ramblings</title>
-  <link rel="shortcut icon" href="/favicon.ico" />
-  <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Mikkel Jeppesen" />
-  <meta name="description" content="" />
-  <link rel="stylesheet"
-    href="https://blog.mikkel.cc/css/main.min.68e582a4d4ed824d6b7e3b5b37cae47eb3779bd631046379d0e68b38230cc3e2.css" />
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-09MS4W73S3"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-09MS4W73S3', { 'anonymize_ip': false });
+}
+</script>
 
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Home Assistant PC Power Control"/>
+<meta name="twitter:description" content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
+ After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows."/>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-09MS4W73S3"></script>
-  <script>
-    var doNotTrack = false;
-    if (!doNotTrack) {
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-09MS4W73S3', { 'anonymize_ip': false });
-    }
-  </script>
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Home Assistant PC Power Control" />
-  <meta name="twitter:description"
-    content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
+    <meta property="og:title" content="Home Assistant PC Power Control" />
+<meta property="og:description" content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
  After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows." />
-
-  <meta property="og:title" content="Home Assistant PC Power Control" />
-  <meta property="og:description"
-    content="Windows 10 Home Assistant power management First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly inspired by this blog post however solves issues I ran into following other posts.
- After posting this blog post, I was made aware of a tool called IOT Link which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows." />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://blog.mikkel.cc/posts/homeassistant_pc_power/" />
-  <meta property="article:section" content="posts" />
-  <meta property="article:published_time" content="2021-01-14T02:22:45+01:00" />
-  <meta property="article:modified_time" content="2021-01-14T02:22:45+01:00" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.mikkel.cc/posts/homeassistant_pc_power/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-14T02:22:45+01:00" />
+<meta property="article:modified_time" content="2021-01-14T02:22:45+01:00" />
 
 
 
-</head>
-
-<body>
-  <header class="app-header">
-    <a href="https://blog.mikkel.cc/"><img class="app-header-avatar" src="/avatar180x180.png"
-        alt="Mikkel Jeppesen" /></a>
-    <h1>Mikkel Jeppesens ramblings</h1>
-    <nav class="app-header-menu">
-      <a class="app-header-menu-item" href="/">Home</a>
-      -
-
-      <a class="app-header-menu-item" href="/tags/">Tags</a>
-    </nav>
-    <p> B.Sc. in EE, M.Sc. in Ai and computer vision.
-      Having fun with IoT and keyboards in my spare time.
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://blog.mikkel.cc/"><img class="app-header-avatar" src="/avatar180x180.png" alt="Mikkel Jeppesen" /></a>
+      <h1>Mikkel Jeppesens ramblings</h1>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>    B.Sc. in EE, M.Sc. in Ai and computer vision. 
+    Having fun with IoT and keyboards in my spare time.
     </p>
-    <div class="app-header-social">
-
-      <a target="_blank" href="https://github.com/Duckle29" rel="noreferrer noopener"><svg
-          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="icon icon-github">
-          <title>github</title>
-          <path
-            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-          </path>
-        </svg></a>
-
-    </div>
-  </header>
-  <main class="app-container">
-
-    <article class="post">
-      <header class="post-header">
-        <h1 class="post-title">Home Assistant PC Power Control</h1>
-        <div class="post-meta">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-calendar">
-              <title>calendar</title>
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            Jan 14, 2021
-          </div>
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-clock">
-              <title>clock</title>
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            8 min read
-          </div>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/Duckle29" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Home Assistant PC Power Control</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 14, 2021
         </div>
-      </header>
-      <div class="post-content">
-        <h1 id="windows-10-home-assistant-power-management">Windows 10 Home Assistant power management</h1>
-        <p><em>First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly
-            inspired by <a href="https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/">this</a> blog
-            post
-            however solves issues I ran into following other posts.</em></p>
-        <blockquote>
-          <p>After posting this blog post, I was made aware of a tool called <a
-              href="https://gitlab.com/iotlink/iotlink/-/wikis/home">IOT Link</a> which seems to be a neat alternative.
-            I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows.
-            Thanks to Luma on the homeassistant discord! :)</p>
-        </blockquote>
-        <p>I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up
-          home assistant, the logical approach was to integrate it into there. I already had my computer
-          set up for Wake on LAN support, and used a separate app for this, but this will only allow you to
-          turn on your PC, which is only half of the task, however it was also by far the easiest, so lets
-          start with that&rsquo;s</p>
-        <h1 id="1-turning-on-your-pc-with-wake-on-lan"><strong>1</strong> Turning on your PC with Wake on LAN</h1>
-        <p>Before you even start trying to use the Home Assistant WoL integration, you first have to ensure
-          that your PC is configured to accept WoL packets. This varies a lot from motherboard to motherboard
-          (or network interface to network interface) so I won&rsquo;t detail that here. Googling
-          &ldquo;Wake on LAN &lt;motherboard name&gt;&rdquo; should get you to a solution.</p>
-        <h2 id="as-an-example">As an example:</h2>
-        <p>On my Asus motherboard the setting was in:
-          <code>Advanced -&gt; APM Configuration -&gt; Power On By PCI-E/PCI</code>
-          which could be confusing, as there&rsquo;s no mention of WoL there, however as the network cards are
-          connected over PCI-E, this is the setting to enable on those boards.</p>
-        <p>Once you&rsquo;ve got WoL working, adding the
-          <a href="https://www.home-assistant.io/integrations/wake_on_lan/">Home Assistant WoL integration</a>
-          is easy as pie. Just set up a switch with the <em>wake_on_lan</em> platform like this:
-        </p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">switch</span>:
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          8 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h1 id="windows-10-home-assistant-power-management">Windows 10 Home Assistant power management</h1>
+<p><em>First off, this blog post is heavily inspired / dependent on other blog posts. It is particularly
+inspired by <a href="https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/">this</a> blog post
+however solves issues I ran into following other posts.</em></p>
+<blockquote>
+<p>After posting this blog post, I was made aware of a tool called <a href="https://gitlab.com/iotlink/iotlink/-/wikis/home">IOT Link</a> which seems to be a neat alternative. I&rsquo;d recommend looking at / trying this before bothering with the annoyance that is ssh on windows. Thanks to Luma on the homeassistant discord! :)</p>
+</blockquote>
+<p>I wanted to be able to, lazily from my bed, turn on/off my desktop PC. Having recent set up
+home assistant, the logical approach was to integrate it into there. I already had my computer
+set up for Wake on LAN support, and used a separate app for this, but this will only allow you to
+turn on your PC, which is only half of the task, however it was also by far the easiest, so lets
+start with that&rsquo;s</p>
+<h1 id="1-turning-on-your-pc-with-wake-on-lan"><strong>1</strong> Turning on your PC with Wake on LAN</h1>
+<p>Before you even start trying to use the Home Assistant WoL integration, you first have to ensure
+that your PC is configured to accept WoL packets. This varies a lot from motherboard to motherboard
+(or network interface to network interface) so I won&rsquo;t detail that here. Googling
+&ldquo;Wake on LAN &lt;motherboard name&gt;&rdquo; should get you to a solution.</p>
+<h2 id="as-an-example">As an example:</h2>
+<p>On my Asus motherboard the setting was in: <code>Advanced -&gt; APM Configuration -&gt; Power On By PCI-E/PCI</code>
+which could be confusing, as there&rsquo;s no mention of WoL there, however as the network cards are
+connected over PCI-E, this is the setting to enable on those boards.</p>
+<p>Once you&rsquo;ve got WoL working, adding the
+<a href="https://www.home-assistant.io/integrations/wake_on_lan/">Home Assistant WoL integration</a>
+is easy as pie. Just set up a switch with the <em>wake_on_lan</em> platform like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">switch</span>:
   - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">wake_on_lan</span>
     <span style="color:#f92672">mac</span>: <span style="color:#e6db74">&#34;xx:xx:xx:xx:xx:xx&#34;</span>
     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Desktop</span>
     <span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.0.0.5</span>
-</code></pre>
-        </div>
-        <p>The name and host is optional, however they&rsquo;re nice to have. The name just gives it a name of your
-          choice, while setting the host to the IP of your computer allows home-assistant to ping it to
-          check if it is on. There&rsquo;s some issues with that on windows 10, that I&rsquo;ll cover later in this
-          post.</p>
-        <h2 id="getting-the-mac-address">Getting the MAC address</h2>
-        <p>For the integration to work, you have to put in the MAC address of the NIC in your desktop.
-          You can find this in a number of different ways, but my preferred way is probably to run this
-          one-liner in PowerShell:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject win32_networkadapterconfiguration | Where-Object IPAddress | select description, macaddress, IPAddress
-</code></pre>
-        </div>
-        <p>This will spit out a list of all your different network interfaces that have an IPAddress, along
-          with a description and the MAC address of that NIC. This is what that looks like on my PC, with the
-          addresses sorta somewhat censored.</p>
-        <pre tabindex="0"><code>description                         macaddress        IPAddress
+</code></pre></div><p>The name and host is optional, however they&rsquo;re nice to have. The name just gives it a name of your
+choice, while setting the host to the IP of your computer allows home-assistant to ping it to
+check if it is on. There&rsquo;s some issues with that on windows 10, that I&rsquo;ll cover later in this post.</p>
+<h2 id="getting-the-mac-address">Getting the MAC address</h2>
+<p>For the integration to work, you have to put in the MAC address of the NIC in your desktop.
+You can find this in a number of different ways, but my preferred way is probably to run this
+one-liner in PowerShell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject win32_networkadapterconfiguration | Where-Object IPAddress | select description, macaddress, IPAddress
+</code></pre></div><p>This will spit out a list of all your different network interfaces that have an IPAddress, along
+with a description and the MAC address of that NIC. This is what that looks like on my PC, with the
+addresses sorta somewhat censored.</p>
+<pre tabindex="0"><code>description                         macaddress        IPAddress
 -----------                         ----------        ---------
 Realtek PCIe GbE Family Controller  xx:xx:xx:xx:xx:xx {10.0.0.5, ffff::ffff::ffff::ffff::ffff}
 Hyper-V Virtual Ethernet Adapter    FF:FF:FF:FF:FF:FF {172.28.240.1, ffff::ffff::ffff::ffff::ffff}
 Npcap Loopback Adapter              FF:FF:FF:FF:FF:FF {169.254.255.141, ffff::ffff::ffff::ffff::ffff}
 Hyper-V Virtual Ethernet Adapter #2 FF:FF:FF:FF:FF:FF {172.21.224.1, ffff::ffff::ffff::ffff::ffff}
-</code></pre>
-        <p>In my case I know that my onboard interface is the Realtek controller, while the others are for
-          the virtual machine host software, so I grabbed the MAC address and IP from there.</p>
-        <h2 id="allowing-ping-echo-requests-through-the-w10-firewall">Allowing PING echo requests through the W10
-          firewall</h2>
-        <p>Once you&rsquo;ve got that set up, you may run into an issue where the UI in Home Assistant always thinks
-          your desktop is off. I ran in to that issue, and it turns out in more recent versions
-          (well not that recent&hellip; in 2020) of windows, the firewall was changed to not respond to PING
-          requests. To fix this such that Home Assistant can see that the PC is on, open the
-          <em>Windows Defender Firewall with Advanced Security</em> program (what a name). Either search for it
-          or hit <code>win + r</code> and run <code>WF.msc</code><br>
-          Go to <em>Inbound Rules</em> and find <code>File and Printer Sharing (Echo Request - ICMPv4-In)</code> and
-          enable it.
-          There&rsquo;s several different versions of these rules. Enable the ones relevant to your computer.
-          that&rsquo;ll likely be the rule for the <em>private</em> or <em>public</em> profile
-          <img src="images/firewall_rule.png" alt="firewall_rule.png">
-        </p>
-        <p>If you&rsquo;re having trouble with this step, then there&rsquo;s a more detailed guide <a
-            href="https://www.faqforge.com/windows/windows-10/how-to-allow-ping-trough-the-firewall-in-windows-10/">here</a>
-        </p>
-        <p>With this configured, turning <em>ON</em> the PC should be working. The next &ldquo;fun&rdquo; step is to set
-          up a
-          method of turning off the computer.</p>
-        <h1 id="2-turning-off-the-pc---ssh">2 Turning off the PC - SSH</h1>
-        <p>While there is an RPC Shutdown plugin for Home Assistant , I didn&rsquo;t have much luck with it. It seems
-          services and settings required for it to work have been disabled / locked down for security reasons,
-          and I didn&rsquo;t feel like digging too much into this.</p>
-        <h2 id="installing-openssh-server-on-windows-10">Installing OpenSSH server on windows 10</h2>
-        <p>Instead I decided, to go for SSH, as I&rsquo;m familiar with it and it happens to be very portable, with
-          just the shutdown command (and some permissions) being different between platforms. You can also
-          run different commands if you don&rsquo;t actually want to shut down the PC</p>
-        <p>The initial steps are very similar to what is described in the <a
-            href="https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/#installing-the-openssh-server">first
-            mentioned blog-post</a> however we
-          want to install the server, not the client, so we&rsquo;ll run the following in an admin PowerShell:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># Install the OpenSSH server</span>
+</code></pre><p>In my case I know that my onboard interface is the Realtek controller, while the others are for
+the virtual machine host software, so I grabbed the MAC address and IP from there.</p>
+<h2 id="allowing-ping-echo-requests-through-the-w10-firewall">Allowing PING echo requests through the W10 firewall</h2>
+<p>Once you&rsquo;ve got that set up, you may run into an issue where the UI in Home Assistant always thinks
+your desktop is off. I ran in to that issue, and it turns out in more recent versions
+(well not that recent&hellip; in 2020) of windows, the firewall was changed to not respond to PING
+requests. To fix this such that Home Assistant can see that the PC is on, open the
+<em>Windows Defender Firewall with Advanced Security</em> program (what a name). Either search for it
+or hit <code>win + r</code> and run <code>WF.msc</code><br>
+Go to <em>Inbound Rules</em> and find <code>File and Printer Sharing (Echo Request - ICMPv4-In)</code> and enable it.
+There&rsquo;s several different versions of these rules. Enable the ones relevant to your computer.
+that&rsquo;ll likely be the rule for the <em>private</em> or <em>public</em> profile
+<img src="images/firewall_rule.png" alt="firewall_rule.png"></p>
+<p>If you&rsquo;re having trouble with this step, then there&rsquo;s a more detailed guide <a href="https://www.faqforge.com/windows/windows-10/how-to-allow-ping-trough-the-firewall-in-windows-10/">here</a></p>
+<p>With this configured, turning <em>ON</em> the PC should be working. The next &ldquo;fun&rdquo; step is to set up a
+method of turning off the computer.</p>
+<h1 id="2-turning-off-the-pc---ssh">2 Turning off the PC - SSH</h1>
+<p>While there is an RPC Shutdown plugin for Home Assistant , I didn&rsquo;t have much luck with it. It seems
+services and settings required for it to work have been disabled / locked down for security reasons,
+and I didn&rsquo;t feel like digging too much into this.</p>
+<h2 id="installing-openssh-server-on-windows-10">Installing OpenSSH server on windows 10</h2>
+<p>Instead I decided, to go for SSH, as I&rsquo;m familiar with it and it happens to be very portable, with
+just the shutdown command (and some permissions) being different between platforms. You can also
+run different commands if you don&rsquo;t actually want to shut down the PC</p>
+<p>The initial steps are very similar to what is described in the <a href="https://blog.schembri.me/post/powering-a-windows-pc-via-homeassistant/#installing-the-openssh-server">first mentioned blog-post</a> however we
+want to install the server, not the client, so we&rsquo;ll run the following in an admin PowerShell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># Install the OpenSSH server</span>
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 Start-Service sshd
 <span style="color:#75715e"># OPTIONAL but recommended:</span>
@@ -208,85 +165,49 @@ Get-NetFirewallRule -Name *ssh*
 <span style="color:#75715e"># There should be a firewall rule named &#34;OpenSSH-Server-In-TCP&#34;, which should be enabled</span>
 <span style="color:#75715e"># If the firewall does not exist, create one</span>
 New-NetFirewallRule -Name sshd -DisplayName <span style="color:#e6db74">&#39;OpenSSH Server (sshd)&#39;</span> -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
-</code></pre>
-        </div>
-        <p>It&rsquo;s almost identical to the linked post, but installs the server instead of the client. I&rsquo;ll
-          also
-          link to <a
-            href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">the
-            great Microsoft documentation</a> that the other blog links to.</p>
-        <h2 id="creating-a-local-user">Creating a local user</h2>
-        <p>Next I&rsquo;d recommend creating a dedicated Home Assistant user on the PC, as I don&rsquo;t think
-          it&rsquo;d be a
-          great idea to give your Home Assistant instance unlimited access to your main account. Again the commands
-          are lifted and modified from the same blog:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$Password = Read-Host -AsSecureString
+</code></pre></div><p>It&rsquo;s almost identical to the linked post, but installs the server instead of the client. I&rsquo;ll also
+link to <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">the great Microsoft documentation</a> that the other blog links to.</p>
+<h2 id="creating-a-local-user">Creating a local user</h2>
+<p>Next I&rsquo;d recommend creating a dedicated Home Assistant user on the PC, as I don&rsquo;t think it&rsquo;d be a
+great idea to give your Home Assistant instance unlimited access to your main account. Again the commands
+are lifted and modified from the same blog:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$Password = Read-Host -AsSecureString
 New-LocalUser <span style="color:#e6db74">&#34;homeassistant&#34;</span> -Password $Password 
-</code></pre>
-        </div>
-        <p>then, to allow your Home Assistant instance to connect to this user without a password, we need to set up
-          key login. SSH into your Home Assistant instance, and generate a key. In order to ensure the key is persisted,
-          put it in a persistent folder like <code>/config</code> or <code>/ssl</code>.</p>
-        <p>logged in to your Home Assistant instance over SSH, run the following command to generate a new key:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-keygen -t ed25519 -f <span style="color:#e6db74">&#34;/ssl/.ssh/id_ed25519&#34;</span>
-</code></pre>
-        </div>
-        <p>Follow the prompts but leave the password empty.
-          This will generate a modern elliptic curve based key, and put in in the <code>/ssl/.ssh</code> directory.
-          Next you&rsquo;ll have to allow this key to connect to the Home Assistant user on your W10 PC. Run:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /ssl/.ssh/id_ed25519.pub
-</code></pre>
-        </div>
-        <p>and copy the output, this is the public key that we&rsquo;ll want to tell windows is allowed access.
-          Open a text editor and paste this public key into it, and save it as
-          <code>C:\Users\homeassistant\authorized_keys</code></p>
-        <p>This should be all that&rsquo;s needed, but the SSH server on windows refuses to accept authorized_keys files
-          that have the default file permissions, so we&rsquo;ll have to fix that.<br>
-          Right-click the file and open it&rsquo;s properties, go to <em>Security</em> and click <em>advanced</em><br>
-          <img src="images/authorized_keys_permissions1.png" alt="authorized_keys Properties">
-        </p>
-        <ol>
-          <li>Disable inheritance at the bottom and convert to explicit permissions</li>
-          <li>Change the owner to Home Assistant at the top, click change and enter <code>homeassistant</code> in the
-            box</li>
-          <li>Remove your main account from the list of permission entries</li>
-        </ol>
-        <p>Only the user that is being logged in to, SYSTEM, and Administrators should be on the list of users / groups
-          for this file, so remove your main account</p>
-        <p><img src="images/authorized_keys_permissions2.png" alt="authorized_keys Properties"></p>
-        <p>Once this is set up, we&rsquo;re almost there, however the Home Assistant account needs to have permissions
-          to force a shutdown. If you have windows 10 <em>pro</em> or similar, this can be done via the Group Policy
-          Editor easily.</p>
-        <p>Navigate to
-          <code>Local Computer Policy -&gt; Computer Configuration -&gt; Windows Settings -&gt; Security Settings -&gt; User Rights Assignement</code>
-          and find <code>Force Shutdown from a remote system</code> open it and add homeassistant to the list of users
-          allowed to remotely shut down the PC.<br>
-          I&rsquo;m not aware of a way to do this outside of the group policy editor, as I personally run W10 pro, but
-          if someone finds a way, I&rsquo;d very much appreciate the info, and add it to this post. Best place to tell
-          me would
-          be to open an issue or PR on <a href="https://github.com/Duckle29/blog">the repository</a> for this blog</p>
-        <h1 id="3-adding-the-turn-off-part-to-the-home-assistant-switch">3 Adding the turn off part to the Home
-          Assistant switch</h1>
-        <p>Now that all the pieces are in place, we just have to tell Home Assistant how to nicely ask the computer to
-          turn off.</p>
-        <p>To do this, we&rsquo;ll add a <code>shell_command</code> alias to our config:</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">shell_command</span>:
+</code></pre></div><p>then, to allow your Home Assistant instance to connect to this user without a password, we need to set up
+key login. SSH into your Home Assistant instance, and generate a key. In order to ensure the key is persisted,
+put it in a persistent folder like <code>/config</code> or <code>/ssl</code>.</p>
+<p>logged in to your Home Assistant instance over SSH, run the following command to generate a new key:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-keygen -t ed25519 -f <span style="color:#e6db74">&#34;/ssl/.ssh/id_ed25519&#34;</span>
+</code></pre></div><p>Follow the prompts but leave the password empty.
+This will generate a modern elliptic curve based key, and put in in the <code>/ssl/.ssh</code> directory.
+Next you&rsquo;ll have to allow this key to connect to the Home Assistant user on your W10 PC. Run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /ssl/.ssh/id_ed25519.pub
+</code></pre></div><p>and copy the output, this is the public key that we&rsquo;ll want to tell windows is allowed access.
+Open a text editor and paste this public key into it, and save it as <code>C:\Users\homeassistant\authorized_keys</code></p>
+<p>This should be all that&rsquo;s needed, but the SSH server on windows refuses to accept authorized_keys files
+that have the default file permissions, so we&rsquo;ll have to fix that.<br>
+Right-click the file and open it&rsquo;s properties, go to <em>Security</em> and click <em>advanced</em><br>
+<img src="images/authorized_keys_permissions1.png" alt="authorized_keys Properties"></p>
+<ol>
+<li>Disable inheritance at the bottom and convert to explicit permissions</li>
+<li>Change the owner to Home Assistant at the top, click change and enter <code>homeassistant</code> in the box</li>
+<li>Remove your main account from the list of permission entries</li>
+</ol>
+<p>Only the user that is being logged in to, SYSTEM, and Administrators should be on the list of users / groups for this file, so remove your main account</p>
+<p><img src="images/authorized_keys_permissions2.png" alt="authorized_keys Properties"></p>
+<p>Once this is set up, we&rsquo;re almost there, however the Home Assistant account needs to have permissions to force a shutdown. If you have windows 10 <em>pro</em> or similar, this can be done via the Group Policy Editor easily.</p>
+<p>Navigate to <code>Local Computer Policy -&gt; Computer Configuration -&gt; Windows Settings -&gt; Security Settings -&gt; User Rights Assignement</code> and find <code>Force Shutdown from a remote system</code> open it and add homeassistant to the list of users allowed to remotely shut down the PC.<br>
+I&rsquo;m not aware of a way to do this outside of the group policy editor, as I personally run W10 pro, but if someone finds a way, I&rsquo;d very much appreciate the info, and add it to this post. Best place to tell me would
+be to open an issue or PR on <a href="https://github.com/Duckle29/blog">the repository</a> for this blog</p>
+<h1 id="3-adding-the-turn-off-part-to-the-home-assistant-switch">3 Adding the turn off part to the Home Assistant switch</h1>
+<p>Now that all the pieces are in place, we just have to tell Home Assistant how to nicely ask the computer to
+turn off.</p>
+<p>To do this, we&rsquo;ll add a <code>shell_command</code> alias to our config:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">shell_command</span>:
   <span style="color:#f92672">desktop_off</span>: <span style="color:#e6db74">&#39;ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=1 -o ServerAliveCountMax=1 -i /ssl/.ssh/id_ed25519 homeassistant@10.0.0.5 &#34;shutdown /s /t 60 /c \&#34;Home Assistant is shutting down the PC in 60 seconds. Run shutdown /a in a cmd if you want to abort it\&#34;&#34;&#39;</span>
-</code></pre>
-        </div>
-        <p>This is a fairly simple command. The different <code>-o</code> arguments are just some options that are
-          needed as we&rsquo;re running this <em>headless</em>, the <code>-i</code> argument tells ssh where to find the
-          private key to use to sign in with, and then <code>homeassistant@10.0.0.5</code> is the
-          <code>user@desktop_ip</code> that you want it to connect to. The last part is the command we want to run on
-          the remote system (the desktop), which in this case is the windows shutdown command, telling it to shut down
-          after 60 seconds, and display a message informing anyone at the PC about what&rsquo;s going on.</p>
-        <p>After adding this to the <code>turn_off</code> key on your switch, you should be all set! :)</p>
-        <div class="highlight">
-          <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">
+</code></pre></div><p>This is a fairly simple command. The different <code>-o</code> arguments are just some options that are needed as we&rsquo;re running this <em>headless</em>, the <code>-i</code> argument tells ssh where to find the private key to use to sign in with, and then <code>homeassistant@10.0.0.5</code> is the <code>user@desktop_ip</code> that you want it to connect to. The last part is the command we want to run on the remote system (the desktop), which in this case is the windows shutdown command, telling it to shut down after 60 seconds, and display a message informing anyone at the PC about what&rsquo;s going on.</p>
+<p>After adding this to the <code>turn_off</code> key on your switch, you should be all set! :)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">
 <span style="color:#f92672">shell_command</span>:
   <span style="color:#f92672">desktop_off</span>: <span style="color:#e6db74">&#39;ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=1 -o ServerAliveCountMax=1 -i /ssl/.ssh/id_ed25519 homeassistant@10.0.0.5 &#34;shutdown /s /t 60 /c \&#34;Home Assistant is shutting down the PC in 60 seconds. Run shutdown /a in a cmd if you want to abort it\&#34;&#34;&#39;</span>
 
@@ -297,17 +218,14 @@ New-LocalUser <span style="color:#e6db74">&#34;homeassistant&#34;</span> -Passwo
     <span style="color:#f92672">host</span>: <span style="color:#ae81ff">10.0.0.5</span>
     <span style="color:#f92672">turn_off</span>:
       <span style="color:#f92672">service</span>: <span style="color:#ae81ff">shell_command.desktop_off</span>
-</code></pre>
-        </div>
-        <p>Phew, that was a bit of work.</p>
+</code></pre></div><p>Phew, that was a bit of work.</p>
 
-      </div>
-      <div class="post-footer">
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
 
-      </div>
-    </article>
-
-  </main>
-</body>
-
+    </main>
+  </body>
 </html>
