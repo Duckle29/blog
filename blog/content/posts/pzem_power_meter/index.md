@@ -110,7 +110,7 @@ Notice also that the HV and LV sides are separated as much as possible, with the
 separation being the DC side of the PZEM module, and the 3.3v power cables from the PSU.
 
 ## Firmware
-with the hardware selection figured out, it was time to make it do something 
+With the hardware selection figured out, it was time to make it do something 
 
 {{< imgresize "images/cmon-do-something.jpg" "200x" "pzem box" >}}  
 
