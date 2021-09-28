@@ -1,0 +1,9 @@
+{{ $original := .Page.Resources.GetMatch (.Get 0) }}
+{{ $options := .Get 1 }}
+{{ $title := .Get 2 }}
+
+{{ .Scratch.Set "image" ($original.Resize $options) }}
+{{ $image := .Scratch.Get "image" }}
+<a href="{{$original.RelPermalink}}">
+    <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}">
+</a>
