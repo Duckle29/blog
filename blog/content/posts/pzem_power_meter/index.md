@@ -65,7 +65,7 @@ in the image, the ones I got on aliexpress... did not.
 
 In fact, removing the bottom plate was easy, and what I found wasn't exactly great. While this would
 work, there was only a mm or two between the mains live leg, and the can of the mains input capacitor,
-which means only a mm or two between two points that would have ~325v between them 50 times a second.
+which means only a mm or two between two points that would have ~325v between them 100 times a second.
 
 I am not sure if this is a different package, a faulty batch, or just downright a clone of the Hi-Link modules,
 but I decided to not use these either.
