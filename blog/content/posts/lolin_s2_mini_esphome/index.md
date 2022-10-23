@@ -5,8 +5,11 @@ draft: false
 ---
 
 # TL;DR
-To successfully program an S2 mini with ESPHOME,
 
+I have yet to get anything interesting working (i2c / uart etc)
+but a basic firmware can be compiled and flashed:
+
+To successfully program an S2 mini with ESPHOME,
 use the following starter yaml and build your firmware:
 
 ```yaml
@@ -42,6 +45,9 @@ I dug around a bit and found the `platform_version` config, and set that to `4.4
 ## Toolchain
 The next (rather annoying :( ) issue I ran in to is that currently the toolchain to compile for the esp32s2 chips isn't supported on the arm architecture used by the raspberry pi. 
 This means you have to set up and use esptool on a different non-arm computer. I tried getting it to work in windows, but ran in to some issues with libraries/dependencies not properly downloading, and so I moved to docker/linux
+
+### I got it working on windows. The rest is left in case it's useful
+
 
 Refer to [the esphome documentation on how to use this with docker](https://esphome.io/guides/getting_started_command_line.html)
 
