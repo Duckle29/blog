@@ -6,7 +6,9 @@ draft: false
 
 # TL;DR
 
-I have yet to get anything interesting working (i2c / uart etc)
+Okay I'll have to rewrite this post at some point. I got i2c/uart compiling, but I have to delete the .esphome folder and do a clean compile each time
+
+I have yet to get anything interesting working (~~i2c / uart etc~~)
 but a basic firmware can be compiled and flashed:
 
 To successfully program an S2 mini with ESPHOME,
