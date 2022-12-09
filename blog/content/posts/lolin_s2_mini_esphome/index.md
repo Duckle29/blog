@@ -2,6 +2,7 @@
 title: "ESPHome on a WeMos / Lolin S2 mini"
 date: 2022-10-23T02:22:45+01:00
 draft: false
+author: "Mikkel Jeppesen"
 ---
 
 # TL;DR
