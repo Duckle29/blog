@@ -19,6 +19,9 @@ For that purpose, I wrote a very simple and small [webhook_server](https://githu
 Flask and Flask-Hookserver. The server just sits and listens for webhooks from github, and then looks if it has a site
 configured for the repo that the hook comes from. If it does, it updates the site and optionally runs some deploy commands
 
+## Example
+
+### Webhook server config
 Lets look at an example config (the example config from the repo in fact)
 ```ini
 [main]
@@ -53,5 +56,10 @@ optionally:
 - *production_branch* if you don't want to monitor the main branch, you can specify a production branch
 - *command* If you want to run a command after pulling the changes, you can put this here.
 For this blog that's `cd blog && hugo`
+
+### Github repo config
+Once the webhook server is ready and happy, the repository should be set up to send webhooks. This is done fairly simply, by going to the repository settings, then webhooks and adding a webhook.  
+In here, the webhook needs to be given the url to the webhook server and its endpoint, the secret you decided on, and the content type should be json.  
+As for events, it should be set to "just the push event"
 
 and voila. Very easy way to have simple static websites deployed. 
