@@ -1,0 +1,162 @@
+esphome:
+  name: airq1
+  platform: ESP32
+  board: esp-wrover-kit
+  on_boot:
+    priority: -100
+    then:
+      - light.turn_on:
+          id: back_light
+          brightness: 25%
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Air Quality Fallback Hotspot"
+    password: "yea no this isn't my password"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+# Enable logging
+logger:
+  level: INFO
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome_api_pass
+
+ota:
+  password: !secret esphome_ota_pass
+
+i2c:
+  sda: 33
+  scl: 19
+  scan: True
+  id: bus_b
+
+bme680_bsec:
+  address: 0x77
+  temperature_offset: 6
+
+uart:
+  - id: uart_s8
+    rx_pin: 34
+    tx_pin: 23
+    baud_rate: 9600
+    
+  - id: uart_sds
+    rx_pin: 18
+    tx_pin: 15
+    baud_rate: 9600
+    
+spi:
+  clk_pin: 12
+  mosi_pin: 27
+  miso_pin: 13
+
+button:
+  - platform: template
+    name: AirQ1 CO2 400ppm baseline
+    on_press:
+      - logger.log:
+          format: "CO2 background calibration"
+          level: INFO
+      - senseair.background_calibration: sens_co2_actions
+      - delay: 120s
+      - senseair.background_calibration_result: sens_co2_actions
+
+sensor:
+  - platform: sds011
+    pm_2_5:
+      name: "AirQ1_PM2.5"
+      id: sens_pm2p5
+    pm_10_0:
+      name: "AirQ1_PM10"
+      id: sens_pm10
+    update_interval: 10min
+    uart_id: uart_sds
+  
+  - platform: senseair
+    uart_id: uart_s8
+    update_interval: 30s
+    co2:
+      name: "AirQ1_CO2"
+      id: sens_co2
+    id: sens_co2_actions
+  
+  - platform: bme680_bsec
+    temperature:
+      name: "AirQ1_T"
+      id: sens_t
+    pressure:
+      name: "AirQ1_P"
+      id: sens_p
+    humidity:
+      name: "AirQ1_RH"
+      id: sens_rh
+    iaq:
+      name: "AirQ1_IAQ"
+      id: sens_iaq
+    co2_equivalent:
+      name: "AirQ1_CO2EQ"
+    breath_voc_equivalent:
+      name: "AirQ1_BVOCEQ"
+      
+color:
+  - id: my_red
+    red: 100%
+    green: 3%
+    blue: 5%
+
+font:
+  - file: "/config/esphome/fonts/monofonto.ttf"
+    id: monofonto15
+    size: 15
+    
+  - file: "/config/esphome/fonts/monofonto.ttf"
+    id: monofonto30
+    size: 30
+      
+display:
+  - platform: ili9341
+    model: TFT 2.4
+    cs_pin: 25
+    dc_pin: 14
+    reset_pin: 26
+    rotation: 90
+    
+    lambda: |-
+      it.fill(Color::BLACK);
+      it.print(0, 0, id(monofonto15), id(my_red), TextAlign::TOP_LEFT, "Hello World!");
+      it.printf(0, 30, id(monofonto30), "CO2:    %4.0f ppm", id(sens_co2).state);
+      it.printf(0, 60, id(monofonto30), "PM2.5:   %5.1f", id(sens_pm2p5).state);
+      it.printf(0, 90, id(monofonto30), "PM10:    %5.1f", id(sens_pm10).state);
+      it.printf(0, 120, id(monofonto30), "IAQ:    %4.0f", id(sens_iaq).state);
+      it.printf(0, 160, id(monofonto30), "%4.1f°C  %4.1f%%", id(sens_t).state, id(sens_rh).state);
+      it.printf(0, 190, id(monofonto30), "%4.0f hPa", id(sens_p).state);
+
+
+# Define a PWM output on the ESP32
+output:
+  - platform: ledc
+    pin: 32
+    id: gpio_32_backlight_pwm
+
+# Define a monochromatic, dimmable light for the backlight
+light:
+  - platform: monochromatic
+    output: gpio_32_backlight_pwm
+    name: "ILI9341 Display Backlight"
+    id: back_light
+    restore_mode: ALWAYS_ON
+    gamma_correct: 1
+    effects:
+      - pulse:
+          transition_length: 1s
+          update_interval: 1s

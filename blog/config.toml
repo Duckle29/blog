@@ -28,4 +28,8 @@ paginate = 5
     name = "github"
     url = "https://github.com/Duckle29"
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+    unsafe = true
 

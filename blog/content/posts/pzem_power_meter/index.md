@@ -2,6 +2,7 @@
 title: "Pzem power meter"
 date: 2021-09-28T16:33:23+02:00
 draft: false
+author: Mikkel Jeppesen
 ---
 
 # PZEM-004T V3 power meter 
