@@ -1,7 +1,7 @@
 ---
 title: "Air quality monitor"
 date: 2022-12-30T16:44:00+01:00
-draft: true
+draft: false
 author: Mikkel Jeppesen
 ---
 
