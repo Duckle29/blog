@@ -3,7 +3,8 @@ languageCode = "en-us"
 title = "Mikkel Jeppesens ramblings"
 googleAnalytics = "G-09MS4W73S3"
 theme = "m10c"
-paginate = 5
+[pagination]
+  pagerSize = 5
 
 [menu]
   [[menu.main]]
@@ -18,8 +19,10 @@ paginate = 5
 [params]
     author = "Mikkel Jeppesen"
     description = """
-    B.Sc. in EE, M.Sc. in Ai and computer vision. 
-    Having fun with IoT and keyboards in my spare time.
+    B.Sc. and career in EE. <br/>
+    M.Sc. in Ai and computer vision.
+    <br/>
+    Having fun with IoT, self hosting and more.
     """
     avatar = "avatar180x180.png"
     menu_item_separator = " - "

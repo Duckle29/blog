@@ -7,8 +7,8 @@
     {{ hugo.Generator }}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="{{ .Site.Params.author | default "John Doe" }}" />
-    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
-    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
+    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description | plainify }}{{ else }}{{ .Description }}{{ end }}" />
+    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | css.Sass | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
     {{ template "_internal/google_analytics.html" . }}
@@ -30,7 +30,7 @@
         {{- end }}
       </nav>
       {{- end }}
-      <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
+      <p>{{ .Site.Params.description | safeHTML | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
       <div class="app-header-social">
         {{ range .Site.Params.social }}
           <a target="_blank" href="{{ .url }}" rel="noreferrer noopener">{{ partial "icon.html" (dict "ctx" $ "name" .name ) }}</a>
